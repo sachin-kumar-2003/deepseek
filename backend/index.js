@@ -3,7 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db.js';
-import userRoutes from './routes/user.js';
+import userRoutes from './api/clerk/route.js';
 
 // Load environment variables
 dotenv.config();
@@ -19,7 +19,7 @@ app.use(cors()); // Allow frontend requests
 app.use(express.json()); // Parse JSON bodies
 
 // Routes
-app.use('/api/users', userRoutes);
+app.use('/api/clerk', userRoutes);
 
 // Root route
 app.get('/', (req, res) => {
