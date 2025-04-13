@@ -6,23 +6,37 @@ import arrowIcon from '../assets/arrow_icon.svg';
 import arrowIconDull from '../assets/arrow_icon_dull.svg';
 import { useAppContext } from '../context/AppContext';
 import { GoogleGenAI } from "@google/genai";
-import ChatMessages from './ChatMessages'; // Import the ChatMessages component
-
+import ChatMessages from './ChatMessages';
+import { useUser } from '@clerk/clerk-react';
+const googleApiKey ='AIzaSyDdT1ICJDFN_tFd2NLDkAyxi8ivr-pN90E'; // Ensure you have the API key set in your environment variables
+console.log(googleApiKey); // Log the API key for debugging purposes
 const PromptBox = ({ setIsLoading, isLoading }) => {
   const [prompt, setprompt] = useState('');
   const { user, chats, setChats, selectedChat, setSelectedChat } = useAppContext();
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      setIsLoading(true);
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      setprompt(prompt + '\n');
-      console.log(prompt);
+
+    const promptCopy = prompt;
+    setIsLoading(true);
+    setprompt('');
+
+    const userPrompt = {
+      role: 'user',
+      content: promptCopy,
+      timestamp: Date.now(),
+    };
+
+    // Add user message to chat history
+    setChats((prev) => [...prev, userPrompt]);
+    setSelectedChat((prev) => [...prev, userPrompt]);
+      main(prompt);
     }
   };
 
   // Initialize the GoogleGenAI API client
-  const ai = new GoogleGenAI({ apiKey: "AIzaSyDdT1ICJDFN_tFd2NLDkAyxi8ivr-pN90E" });
+  const ai = new GoogleGenAI({ apiKey:googleApiKey });
 
   // Function to call Gemini API and handle the response
   const main = async (userPrompt) => {
