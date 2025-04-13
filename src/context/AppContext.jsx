@@ -1,4 +1,3 @@
-"use client";
 import { useUser } from "@clerk/clerk-react";
 import { createContext, useContext } from "react";
 
