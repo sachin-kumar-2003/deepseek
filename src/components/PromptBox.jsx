@@ -8,9 +8,7 @@ import { useAppContext } from '../context/AppContext';
 import { GoogleGenAI } from "@google/genai";
 import ChatMessages from './ChatMessages';
 import { useUser } from '@clerk/clerk-react';
-const googleApiKey='AIzaSyDdT1ICJDFN_tFd2NLDkAyxi8ivr-pN90E';
-// const googleApiKey=import.meta.VITE_CLERK_PUBLISHABLE_KEY;// Ensure you have the API key set in your environment variables
-console.log(googleApiKey); // Log the API key for debugging purposes
+const googleApiKey=import.meta.env.VITE_GOOGLE_API_KEY;
 const PromptBox = ({ setIsLoading, isLoading }) => {
   const [prompt, setprompt] = useState('');
   const { user, chats, setChats, selectedChat, setSelectedChat } = useAppContext();
